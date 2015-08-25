@@ -16,7 +16,7 @@ ftclient
 2. Type 'gcc -Wall -o ftclient_gui.exe ftclient_gui.c -lGL -lglut -lGLU' to build GUI.
 3. Run 'ftclient.exe' or 'ftclient_gui.exe'
 
-Note:
------
--ftclient_comms is yet to be properly hooked into GUI. The GUI client is unfinished. 
--Code relies on older versions of ZeroMQ and OpenGL/GLUT (2011).
+Note
+----
+*ftclient_comms is yet to be properly hooked with GUI. The GUI client is unfinished. 
+*Code relies on older versions of ZeroMQ and OpenGL/GLUT (2011).
