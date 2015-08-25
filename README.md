@@ -18,5 +18,5 @@ ftclient
 
 Note
 ----
-*ftclient_comms is yet to be properly hooked with GUI. The GUI client is unfinished. 
-*Code relies on older versions of ZeroMQ and OpenGL/GLUT (2011).
+* ftclient_comms is yet to be properly hooked with GUI. The GUI client is unfinished. 
+* Code relies on older versions of ZeroMQ and OpenGL/GLUT (2011).
