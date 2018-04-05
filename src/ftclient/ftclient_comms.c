@@ -190,69 +190,66 @@ void terminateClientConnection (void *context, void *socket)
 /**
  *  Main entry point for client program.    
  */
-int main (void)
+int main (int argc, char *argv[])
 {
     file_t *file = NULL;
     void *context = NULL;
     void *requester = NULL;
     int sendFlag = 0;
     int FTStatus = 0;
-    char *fileName = "pic.jpg"; // Needs to be specified by glut.
+    char *fileName = argv[1]; // FIXME: Needs to be specified through GUI.
     
     file = saveAFileIntoMem (fileName);
     
-
-    
-    
     if (file != NULL)
     {
-            if (file->fileSize > MAX_FILE_SIZE)
-            {
-                fprintf (stderr, "File is too big.\n");
-            }
-        
-            context = zmq_init (1);
+        if (file->fileSize > MAX_FILE_SIZE)
+        {
+            fprintf (stderr, "File is too big.\n");
+        }
     
-            //  Socket to talk to server
-            requester = zmq_socket (context, ZMQ_REQ);
-            zmq_connect (requester, "tcp://localhost:5678"); 
-            
-            sendFlag = FTClientSideNegotiation (context, requester);// Needs to be specified by glut.
-            
-            switch (sendFlag)
-            {
-                case TRANSFER_FILE:
-                    printf ("TRANSFER FILE.\n");
-                    
-                    FTStatus = sendFile (context, requester, file);
-                     
-                    switch (FTStatus)
-                    {
-                        case FT_SUCCESS:
-                            printf("File was received by server.\n");
-                            break;
-                            
-                        case FT_FAIL:
-                            printf("File wasn't received by server.\n");
-                            break;
-                            
-                        case FT_UNKNOWN:
-                            printf("Invalid response was found during file transfer.\n");
-                            break;
-                            
-                    }
-                            
-                    
-                    break;
-                    
-                case DO_NOT_TRANSFER_FILE:
-                    printf ("DO NOT TRANSFER FILE.\n");
-                    break;
-                    
-                case INVALID_REPLY:
-                    printf ("INVALID REPLY.\n");
-                    break;
-            }
+        context = zmq_init (1);
+
+        //  Socket to talk to server
+        requester = zmq_socket (context, ZMQ_REQ);
+        zmq_connect (requester, "tcp://localhost:5678"); 
+        
+        sendFlag = FTClientSideNegotiation (context, requester);// Needs to be specified by glut.
+        
+        switch (sendFlag)
+        {
+            case TRANSFER_FILE:
+                printf ("TRANSFER FILE.\n");
+                
+                FTStatus = sendFile (context, requester, file);
+                 
+                switch (FTStatus)
+                {
+                    case FT_SUCCESS:
+                        printf("File was received by server.\n");
+                        break;
+                        
+                    case FT_FAIL:
+                        printf("File wasn't received by server.\n");
+                        break;
+                        
+                    case FT_UNKNOWN:
+                        printf("Invalid response was found during file transfer.\n");
+                        break;
+                        
+                }
+                        
+                
+                break;
+                
+            case DO_NOT_TRANSFER_FILE:
+                printf ("DO NOT TRANSFER FILE.\n");
+                break;
+                
+            case INVALID_REPLY:
+                printf ("INVALID REPLY.\n");
+                break;
+        }
     }
     else if (file == NULL)
     {
